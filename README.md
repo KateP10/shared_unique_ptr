@@ -12,8 +12,9 @@
 - **tests.h** — прототипы функций test_ и bench_. 
 - **tests.cpp** — определения тестовых структур (Base, Derived, Tracked), функциональных тестов и замеров производительности.
 - **unique_ptr.h, shared_ptr.h, array.h** — шаблонные классы.
-#### Ожидаемый вывод
- b->name() = Derived
+## Ожидаемый вывод программы
+```
+b->name() = Derived
 use_count = 2
 b->name() = Derived
 alive after scope = 0 (expected 0)
@@ -21,8 +22,8 @@ copy.use_count() = 2
 
 === Сравнение производительности умных указателей ===
 sizeof(Tracked) = 1 байт
-sizeof(UnqPtr<Tracked>) = 8 байт
-sizeof(ShrdPtr<Tracked>) = 16 байт
+sizeof(UnqPtr) = 8 байт
+sizeof(ShrdPtr) = 16 байт
 sizeof(size_t) = 8 байт
 
 N           raw, ms        UnqPtr, ms     ShrdPtr, ms    STL shrd, ms
@@ -41,10 +42,15 @@ N           raw            UnqPtr         ShrdPtr
 10000       90000          90000          250000
 100000      900000         900000         2500000
 1000000     9000000        9000000        25000000
-##### Тесты
-test_unq_subtyping - проверяет подтипизацию UnqPtr
-test_shrd_subtyping - проверяет подтипизацию ShrdPtr и корректность общего счетчика
-test_no_leak - проверяет отсутствие утечек через счетчик живых объектов Tracked::alive
-test_container - проверяет SharedArray и shared ownership в контейнере
-bench_table - замеряет время создания и удаления N объектов
-print_memory_table - считает теоретический расход памяти
+```
+
+## Тесты и бенчмарки
+
+| Функция | Что проверяет |
+|---|---|
+| test_unq_subtyping | Подтипизация UnqPtr (UnqPtr<Derived> -> UnqPtr<Base>) |
+| test_shrd_subtyping | Подтипизация ShrdPtr и корректность общего счетчика |
+| test_no_leak | Отсутствие утечек через счетчик живых объектов Tracked::alive |
+| test_container | Работа SharedArray и shared ownership в контейнере |
+| bench_table | Замеряет время создания и удаления N объектов |
+| print_memory_table | Считает теоретический расход памяти |
